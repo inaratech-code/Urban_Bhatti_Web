@@ -40,14 +40,18 @@ export default function ResetPasswordContent() {
     setStatus('loading');
     try {
       const origin = typeof window !== 'undefined' && window.location ? window.location.origin : '';
-      await sendPasswordResetEmail(firebaseAuth, trimmedEmail, {
-        url: origin ? `${origin}/signin` : '/signin'
-      });
+      const actionCodeSettings = {
+        url: origin ? `${origin}/signin` : '/signin',
+        handleCodeInApp: false
+      };
+      
+      await sendPasswordResetEmail(firebaseAuth, trimmedEmail, actionCodeSettings);
       setStatus('sent');
       setMessage("We've emailed you a reset link. It expires in 1 hour.");
     } catch (err) {
       setStatus('idle');
       if (err instanceof FirebaseError) {
+        console.error('Password reset error:', err.code, err.message);
         switch (err.code) {
           case 'auth/user-not-found':
             setError('No account found with that email. Check for typos or sign up.');
@@ -55,10 +59,17 @@ export default function ResetPasswordContent() {
           case 'auth/too-many-requests':
             setError('Too many requests. Wait a few minutes and try again.');
             break;
+          case 'auth/invalid-email':
+            setError('Invalid email address. Please check and try again.');
+            break;
+          case 'auth/network-request-failed':
+            setError('Network error. Please check your internet connection and try again.');
+            break;
           default:
-            setError('We could not send the reset email. Please try again later.');
+            setError(`Unable to send reset email. Error: ${err.code}. Please check Firebase email settings or try again later.`);
         }
       } else {
+        console.error('Password reset error:', err);
         setError('We could not send the reset email. Please try again later.');
       }
       return;

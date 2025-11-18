@@ -67,6 +67,7 @@ export default function AdminSettingsPage() {
     } catch (err) {
       setStatus('error');
       if (err instanceof FirebaseError) {
+        console.error('Password reset error:', err.code, err.message);
         switch (err.code) {
           case 'auth/user-not-found':
             setError('No account found with that email.');
@@ -74,10 +75,17 @@ export default function AdminSettingsPage() {
           case 'auth/too-many-requests':
             setError('Too many requests. Please wait a few minutes and try again.');
             break;
+          case 'auth/invalid-email':
+            setError('Invalid email address. Please check and try again.');
+            break;
+          case 'auth/network-request-failed':
+            setError('Network error. Please check your internet connection and try again.');
+            break;
           default:
-            setError('Failed to send password reset email. Please try again later.');
+            setError(`Unable to send reset email. Error: ${err.code}. Please check Firebase email settings or try again later.`);
         }
       } else {
+        console.error('Password reset error:', err);
         setError('Failed to send password reset email. Please try again later.');
       }
     }
