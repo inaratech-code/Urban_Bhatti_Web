@@ -54,8 +54,9 @@ export default function AdminSettingsPage() {
 
     setStatus('loading');
     try {
+      const origin = typeof window !== 'undefined' ? window.location.origin : '';
       await sendPasswordResetEmail(firebaseAuth, user.email, {
-        url: `${window.location.origin}/signin`,
+        url: `${origin}/signin`,
         handleCodeInApp: false
       });
       setStatus('success');
