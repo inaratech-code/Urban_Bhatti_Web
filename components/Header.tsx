@@ -296,22 +296,29 @@ export default function Header() {
           {isLoading && <span className="text-sm text-gray-500">Checking auth…</span>}
 
           {!isLoading && isAdminSession && adminUser && (
-            <span className="text-sm sm:text-base font-normal text-[#3f2a1d] whitespace-nowrap">
-              Urban Bhatti
-            </span>
-          )}
-
-          {!isLoading && activeUser && (
             <>
-              {!isAdminSession && (
-                <span className="text-[10px] sm:text-[11px] text-[#3f2a1d] md:text-sm">{greeting}</span>
-              )}
+              <span className="text-sm sm:text-base font-normal text-[#3f2a1d] whitespace-nowrap">
+                Urban Bhatti
+              </span>
               <button
                 type="button"
                 onClick={handleSignOut}
                 className="motion-tap rounded-full bg-[#f36a10] px-3 sm:px-3.5 py-1.5 text-[10px] sm:text-[11px] font-semibold text-white hover:bg-[#d85a0b] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#f36a10] touch-manipulation"
               >
-                {isAdminSession ? 'Sign Out' : 'Sign Out'}
+                Sign Out
+              </button>
+            </>
+          )}
+
+          {!isLoading && !isAdminSession && activeUser && (
+            <>
+              <span className="text-[10px] sm:text-[11px] text-[#3f2a1d] md:text-sm">{greeting}</span>
+              <button
+                type="button"
+                onClick={handleSignOut}
+                className="motion-tap rounded-full bg-[#f36a10] px-3 sm:px-3.5 py-1.5 text-[10px] sm:text-[11px] font-semibold text-white hover:bg-[#d85a0b] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#f36a10] touch-manipulation"
+              >
+                Sign Out
               </button>
             </>
           )}
