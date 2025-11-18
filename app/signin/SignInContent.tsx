@@ -593,7 +593,7 @@ export default function SignInContent() {
           </div>
 
           {showAdminOption && (
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="hidden sm:grid gap-3 sm:grid-cols-2">
               {roleTabs.map((tab) => (
                 <button
                   key={tab.value}
@@ -616,12 +616,10 @@ export default function SignInContent() {
             </div>
           )}
           
-          {!showAdminOption && (
-            <div className="rounded-2xl border border-brand-orange bg-white px-5 sm:px-4 py-4 shadow">
-              <p className="text-sm font-semibold text-brand-dark">{roleTabs[0].label}</p>
-              <p className="mt-1 text-xs text-gray-500">{roleTabs[0].description}</p>
-            </div>
-          )}
+          <div className={`rounded-2xl border border-brand-orange bg-white px-5 sm:px-4 py-4 shadow ${showAdminOption ? 'sm:hidden' : ''}`}>
+            <p className="text-sm font-semibold text-brand-dark">{roleTabs[0].label}</p>
+            <p className="mt-1 text-xs text-gray-500">{roleTabs[0].description}</p>
+          </div>
 
           <form onSubmit={handleSubmit} className="space-y-4" noValidate>
             <div>
