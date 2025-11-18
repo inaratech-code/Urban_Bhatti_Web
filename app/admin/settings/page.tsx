@@ -9,6 +9,9 @@ import { useAdminAuth } from '../../../components/AuthProvider';
 import { firebaseAuth } from '../../../lib/firebaseAuthClient';
 import DatabaseCleanup from '../../../components/DatabaseCleanup';
 
+// Force dynamic rendering to prevent static generation issues
+export const dynamic = 'force-dynamic';
+
 export default function AdminSettingsPage() {
   const router = useRouter();
   const { user, role, loading } = useAdminAuth();
@@ -54,9 +57,9 @@ export default function AdminSettingsPage() {
 
     setStatus('loading');
     try {
-      const origin = typeof window !== 'undefined' ? window.location.origin : '';
+      const origin = typeof window !== 'undefined' && window.location ? window.location.origin : '';
       await sendPasswordResetEmail(firebaseAuth, user.email, {
-        url: `${origin}/signin`,
+        url: origin ? `${origin}/signin` : '/signin',
         handleCodeInApp: false
       });
       setStatus('success');

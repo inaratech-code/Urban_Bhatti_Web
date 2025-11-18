@@ -39,9 +39,9 @@ export default function ResetPasswordContent() {
 
     setStatus('loading');
     try {
-      const origin = typeof window !== 'undefined' ? window.location.origin : '';
+      const origin = typeof window !== 'undefined' && window.location ? window.location.origin : '';
       await sendPasswordResetEmail(firebaseAuth, trimmedEmail, {
-        url: `${origin}/signin`
+        url: origin ? `${origin}/signin` : '/signin'
       });
       setStatus('sent');
       setMessage("We've emailed you a reset link. It expires in 1 hour.");

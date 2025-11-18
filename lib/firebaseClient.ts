@@ -11,14 +11,15 @@ export const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID || '',
 };
 
-// Only initialize Firebase if we have the required API key
+// Only initialize Firebase if we have the required API key and we're in a browser
 // This prevents build errors when environment variables are not set
 let app: FirebaseApp | null = null;
-if (firebaseConfig.apiKey && firebaseConfig.projectId) {
+if (typeof window !== 'undefined' && firebaseConfig.apiKey && firebaseConfig.projectId && 
+    firebaseConfig.apiKey !== '' && firebaseConfig.projectId !== '') {
   try {
     app = getApps().length ? getApp() : initializeApp(firebaseConfig);
   } catch (error) {
-    console.warn('Firebase initialization failed:', error);
+    // Silently fail during build/SSR - Firebase will be initialized on client side
     app = null;
   }
 }

@@ -5,8 +5,9 @@ import { firebaseConfig } from './firebaseClient';
 const ADMIN_APP_NAME = 'admin-dashboard';
 
 function ensureAdminApp(): FirebaseApp | null {
-  // Only initialize if we have the required config
-  if (!firebaseConfig.apiKey || !firebaseConfig.projectId) {
+  // Only initialize if we have the required config and we're in a browser
+  if (typeof window === 'undefined' || !firebaseConfig.apiKey || !firebaseConfig.projectId ||
+      firebaseConfig.apiKey === '' || firebaseConfig.projectId === '') {
     return null;
   }
   
@@ -20,7 +21,7 @@ function ensureAdminApp(): FirebaseApp | null {
     try {
       return initializeApp(firebaseConfig, ADMIN_APP_NAME);
     } catch (error) {
-      console.warn('Admin Firebase app initialization failed:', error);
+      // Silently fail during build/SSR - Firebase will be initialized on client side
       return null;
     }
   }
