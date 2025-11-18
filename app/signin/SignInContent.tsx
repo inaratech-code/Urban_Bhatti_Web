@@ -263,9 +263,21 @@ export default function SignInContent() {
       const isHardcodedAdmin = HARDCODED_ADMIN_UIDS.has(currentUser.uid);
       const isAdminAccount = role === 'admin' || isHardcodedAdmin;
 
+      // Debug logging for admin authentication
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Admin login check:', {
+          mode,
+          uid: currentUser.uid,
+          isHardcodedAdmin,
+          role,
+          isAdminAccount,
+          adminUids: Array.from(HARDCODED_ADMIN_UIDS)
+        });
+      }
+
       if (mode === 'admin' && !isAdminAccount) {
         await signOut(targetAuth);
-        setMessage('This account does not have admin access.');
+        setMessage(`This account does not have admin access. Your UID: ${currentUser.uid}`);
         return;
       }
 
