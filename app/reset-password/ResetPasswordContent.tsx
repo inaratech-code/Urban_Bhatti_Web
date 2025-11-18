@@ -32,6 +32,11 @@ export default function ResetPasswordContent() {
       return;
     }
 
+    if (!firebaseAuth) {
+      setError('Firebase authentication is not configured. Please check your environment variables.');
+      return;
+    }
+
     setStatus('loading');
     try {
       await sendPasswordResetEmail(firebaseAuth, trimmedEmail, {

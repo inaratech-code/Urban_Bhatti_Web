@@ -88,6 +88,11 @@ export default function SignInContent() {
       setResetStatus('verifying');
       
       // Verify the reset code and get the email
+      if (!firebaseAuth) {
+        setResetError('Firebase authentication is not configured. Please check your environment variables.');
+        setResetStatus('idle');
+        return;
+      }
       verifyPasswordResetCode(firebaseAuth, oobCode)
         .then((email) => {
           setResetEmail(email);
@@ -138,6 +143,11 @@ export default function SignInContent() {
       return;
     }
 
+    if (!firebaseAuth) {
+      setResetError('Firebase authentication is not configured. Please check your environment variables.');
+      return;
+    }
+
     setResetStatus('resetting');
     try {
       await confirmPasswordReset(firebaseAuth, resetCode, newPassword);
@@ -169,7 +179,7 @@ export default function SignInContent() {
   };
 
   const ensureUserProfile = useCallback(async (user: FirebaseUser) => {
-    if (!user.email) return;
+    if (!user.email || !firestoreClient) return;
     const profileRef = doc(firestoreClient, 'users', user.uid);
     const snapshot = await getDoc(profileRef);
     if (!snapshot.exists()) {
@@ -220,7 +230,14 @@ export default function SignInContent() {
 
     try {
       const normalizedEmail = form.email.trim().toLowerCase();
-      const targetAuth: Auth = mode === 'admin' ? firebaseAdminAuth : firebaseAuth;
+      const targetAuth: Auth | null = mode === 'admin' ? firebaseAdminAuth : firebaseAuth;
+      
+      if (!targetAuth) {
+        setMessage('Firebase authentication is not configured. Please check your environment variables.');
+        setStatus('idle');
+        return;
+      }
+      
       const refresh = mode === 'admin' ? refreshAdminToken : refreshUserToken;
 
       const userCredential = await signInWithEmailAndPassword(targetAuth, normalizedEmail, form.password);
@@ -309,7 +326,14 @@ export default function SignInContent() {
     setStatus('loading');
 
     try {
-      const targetAuth: Auth = mode === 'admin' ? firebaseAdminAuth : firebaseAuth;
+      const targetAuth: Auth | null = mode === 'admin' ? firebaseAdminAuth : firebaseAuth;
+      
+      if (!targetAuth) {
+        setMessage('Firebase authentication is not configured. Please check your environment variables.');
+        setStatus('idle');
+        return;
+      }
+      
       const refresh = mode === 'admin' ? refreshAdminToken : refreshUserToken;
 
       const credential = await signInWithPopup(targetAuth, googleProvider);

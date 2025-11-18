@@ -47,6 +47,11 @@ export default function AdminSettingsPage() {
       return;
     }
 
+    if (!firebaseAuth) {
+      setError('Firebase authentication is not configured. Please check your environment variables.');
+      return;
+    }
+
     setStatus('loading');
     try {
       await sendPasswordResetEmail(firebaseAuth, user.email, {
@@ -145,7 +150,9 @@ export default function AdminSettingsPage() {
       // Sign out and redirect to sign in after a delay
       setTimeout(async () => {
         try {
-          await signOut(firebaseAuth);
+          if (firebaseAuth) {
+            await signOut(firebaseAuth);
+          }
         } catch (err) {
           console.error('Error signing out:', err);
         }

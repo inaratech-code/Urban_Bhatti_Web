@@ -27,11 +27,34 @@ Full-stack Next.js 14 (App Router) platform for Urban Bhatti with menu browsing,
    npm install
    ```
 
-2. **Create environment file**
+2. **Create environment file** (`.env.local`)
+   
+   Create a `.env.local` file in the root directory with the following variables:
+   
    ```bash
-   cp .env.example .env.local
-   # update values for MongoDB, NextAuth secret, admin credentials
+   # Firebase Configuration (Required)
+   # Get these from Firebase Console: https://console.firebase.google.com/
+   # Project Settings > General > Your apps > Web app
+   NEXT_PUBLIC_FIREBASE_API_KEY=your-api-key-here
+   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-project-id.firebaseapp.com
+   NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project-id
+   NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-project-id.appspot.com
+   NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id
+   NEXT_PUBLIC_FIREBASE_APP_ID=your-app-id
+   NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=your-measurement-id
+   
+   # Firebase Admin SDK (Required for server-side operations)
+   # Get from Firebase Console > Project Settings > Service Accounts > Generate New Private Key
+   FIREBASE_PROJECT_ID=your-project-id
+   FIREBASE_CLIENT_EMAIL=your-service-account-email@your-project-id.iam.gserviceaccount.com
+   FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYour private key here\n-----END PRIVATE KEY-----\n"
+   
+   # NextAuth Configuration
+   NEXTAUTH_URL=http://localhost:3000
+   NEXTAUTH_SECRET=your-nextauth-secret-here
    ```
+   
+   **Note:** The build will work without these variables, but Firebase features (authentication, database, etc.) will not function. Make sure to set all Firebase variables for full functionality.
 
 3. **Seed database** (creates admin + sample menu)
    ```bash

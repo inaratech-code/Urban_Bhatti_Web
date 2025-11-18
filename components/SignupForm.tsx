@@ -83,6 +83,12 @@ export default function SignupForm() {
       return;
     }
 
+    if (!firebaseAuth) {
+      setMessage('Firebase authentication is not configured. Please check your environment variables.');
+      setStatus('idle');
+      return;
+    }
+
     setStatus('loading');
     setMessage('');
 
@@ -90,6 +96,13 @@ export default function SignupForm() {
       const credential = await createUserWithEmailAndPassword(firebaseAuth, form.email, form.password);
       const user = credential.user;
       await updateProfile(user, { displayName: form.name });
+      
+      if (!firestoreClient) {
+        setMessage('Firestore is not configured. Please check your environment variables.');
+        setStatus('error');
+        return;
+      }
+      
       const primaryAddressId = crypto.randomUUID();
       await setDoc(doc(firestoreClient, 'users', user.uid), {
         name: form.name,

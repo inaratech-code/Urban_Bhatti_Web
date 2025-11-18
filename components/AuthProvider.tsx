@@ -124,8 +124,43 @@ function createAuthModule(auth: Auth, contextName: string) {
   return { Provider, useAuth: useAuthInstance };
 }
 
-const defaultAuthModule = createAuthModule(firebaseAuth, 'AuthProvider');
-const adminAuthModule = createAuthModule(firebaseAdminAuth, 'AdminAuthProvider');
+// Create a dummy auth module when Firebase is not configured
+const createDummyAuthModule = (contextName: string) => {
+  const AuthContext = createContext<AuthContextValue | undefined>(undefined);
+  
+  function Provider({ children }: { children: ReactNode }) {
+    const value = useMemo<AuthContextValue>(
+      () => ({
+        user: null,
+        role: null,
+        token: null,
+        loading: false,
+        signOut: async () => {},
+        refreshToken: async () => null
+      }),
+      []
+    );
+    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  }
+  
+  function useAuthInstance() {
+    const ctx = useContext(AuthContext);
+    if (!ctx) {
+      throw new Error(`useAuthInstance must be used within ${contextName}`);
+    }
+    return ctx;
+  }
+  
+  return { Provider, useAuth: useAuthInstance };
+};
+
+const defaultAuthModule = firebaseAuth 
+  ? createAuthModule(firebaseAuth, 'AuthProvider')
+  : createDummyAuthModule('AuthProvider');
+  
+const adminAuthModule = firebaseAdminAuth
+  ? createAuthModule(firebaseAdminAuth, 'AdminAuthProvider')
+  : createDummyAuthModule('AdminAuthProvider');
 
 export const AuthProvider = defaultAuthModule.Provider;
 export const useAuth = defaultAuthModule.useAuth;

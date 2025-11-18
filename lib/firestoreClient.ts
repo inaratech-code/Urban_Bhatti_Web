@@ -1,5 +1,6 @@
-import { getFirestore } from 'firebase/firestore';
+import { getFirestore, type Firestore } from 'firebase/firestore';
 
 import { app } from './firebaseClient';
 
-export const firestoreClient = getFirestore(app);
+// Only initialize Firestore if app is available
+export const firestoreClient: Firestore | null = app ? getFirestore(app) : null;
