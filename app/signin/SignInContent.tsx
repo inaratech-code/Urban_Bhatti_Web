@@ -553,18 +553,20 @@ export default function SignInContent() {
 
   return (
     <div className="space-y-12">
-      <section className="rounded-3xl bg-gradient-to-br from-[#7f1d1d] via-[#6b1717] to-[#4c0f0f] px-4 py-6 sm:px-6 sm:py-12 text-white shadow-sm">
-        <div className="mx-auto flex max-w-3xl flex-col items-center gap-2 sm:gap-4 text-center">
-          <span className="hidden sm:inline-flex rounded-full border border-white/40 px-4 py-1 text-xs uppercase tracking-[0.4em] text-white/80">
-            Welcome back
-          </span>
-          <h1 className="text-xl sm:text-3xl font-bold md:text-4xl">Sign in to Urban Bhatti</h1>
-          <p className="hidden sm:block max-w-xl text-sm text-white/80">
-            Access your saved favourites, track orders in real time, or jump into the admin dashboard to keep the kitchen running smoothly.
-          </p>
-          <p className="sm:hidden max-w-xl text-xs text-white/80">
-            Access your saved favourites and track orders in real time.
-          </p>
+      {/* Header Section - Matching Design */}
+      <section className="rounded-[30px] bg-white px-4 py-6 sm:px-8 sm:py-10 md:px-12 md:py-14 shadow-sm">
+        <div className="mx-auto max-w-4xl">
+          <div className="rounded-[30px] bg-gradient-to-br from-[#7f1d1d] via-[#6b1717] to-[#4c0f0f] px-6 py-8 sm:px-10 sm:py-12 md:px-14 md:py-16 text-white">
+            <div className="mx-auto flex max-w-3xl flex-col items-center gap-3 sm:gap-4 text-center">
+              <span className="inline-flex rounded-full border-2 border-white px-4 py-1.5 text-xs font-medium uppercase tracking-[0.2em] text-white">
+                WELCOME BACK
+              </span>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">Sign in to Urban Bhatti</h1>
+              <p className="max-w-xl text-sm sm:text-base text-white/90 leading-relaxed">
+                Access your saved favourites, track orders in real time, or jump into the admin dashboard to keep the kitchen running smoothly.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
