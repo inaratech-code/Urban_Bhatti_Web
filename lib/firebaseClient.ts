@@ -11,16 +11,40 @@ export const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID || '',
 };
 
-// Only initialize Firebase if we have the required API key and we're in a browser
-// This prevents build errors when environment variables are not set
+// Initialize Firebase app
 let app: FirebaseApp | null = null;
-if (typeof window !== 'undefined' && firebaseConfig.apiKey && firebaseConfig.projectId && 
-    firebaseConfig.apiKey !== '' && firebaseConfig.projectId !== '') {
-  try {
-    app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-  } catch (error) {
-    // Silently fail during build/SSR - Firebase will be initialized on client side
-    app = null;
+
+if (typeof window !== 'undefined') {
+  // Check if we have valid Firebase config
+  const hasValidConfig = firebaseConfig.apiKey && 
+                         firebaseConfig.projectId && 
+                         firebaseConfig.apiKey !== '' && 
+                         firebaseConfig.projectId !== '' &&
+                         !firebaseConfig.apiKey.includes('your-') &&
+                         !firebaseConfig.projectId.includes('your-');
+  
+  if (hasValidConfig) {
+    try {
+      app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Firebase initialized successfully');
+      }
+    } catch (error) {
+      console.error('Firebase initialization error:', error);
+      app = null;
+    }
+  } else {
+    // Debug: Log what's missing
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('Firebase config check failed:', {
+        hasApiKey: !!firebaseConfig.apiKey,
+        hasProjectId: !!firebaseConfig.projectId,
+        apiKeyLength: firebaseConfig.apiKey?.length || 0,
+        projectIdLength: firebaseConfig.projectId?.length || 0,
+        apiKey: firebaseConfig.apiKey?.substring(0, 10) + '...',
+        projectId: firebaseConfig.projectId
+      });
+    }
   }
 }
 

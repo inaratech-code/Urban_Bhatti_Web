@@ -394,16 +394,18 @@ export function CartSidebar() {
   }, [isAuthenticated, address, phone, items, token, location, clearCart, removeItem]);
 
   const handleUseLocation = useCallback(() => {
-    if (!navigator.geolocation) {
+    if (typeof window === 'undefined' || !navigator.geolocation) {
       setStatus('error');
       setMessage('Geolocation is not supported by your browser. Please enter your address manually.');
       return;
     }
 
     // Check if we're on HTTPS or localhost (required for geolocation on mobile)
-    const isSecure = window.location.protocol === 'https:' || 
-                     window.location.hostname === 'localhost' || 
-                     window.location.hostname === '127.0.0.1';
+    const isSecure = window.location && (
+      window.location.protocol === 'https:' || 
+      window.location.hostname === 'localhost' || 
+      window.location.hostname === '127.0.0.1'
+    );
     
     if (!isSecure) {
       setStatus('error');
@@ -596,7 +598,7 @@ export function CartSidebar() {
             </>
           )}
         </button>
-        {typeof window !== 'undefined' && window.location.protocol !== 'https:' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1' && (
+        {typeof window !== 'undefined' && window.location && window.location.protocol !== 'https:' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1' && (
           <p className="text-xs text-amber-600 bg-amber-50 p-2 rounded-lg border border-amber-200">
             <strong>Note:</strong> Location access requires HTTPS. For mobile testing, use <code className="text-xs">localhost</code> or enter address manually.
           </p>
