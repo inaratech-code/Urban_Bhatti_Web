@@ -99,10 +99,31 @@ const initialState: CartState = { items: [] };
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(cartReducer, initialState);
+  const { user } = useAuth();
+  
+  // Get user-specific cart key
+  const getCartKey = useCallback(() => {
+    if (typeof window === 'undefined') return 'restaurant-cart';
+    // Use user ID if logged in, otherwise use session ID
+    if (user?.uid) {
+      return `restaurant-cart-${user.uid}`;
+    }
+    // For guests, use a session-based key (persists until browser is closed)
+    let sessionId = sessionStorage.getItem('cart-session-id');
+    if (!sessionId) {
+      sessionId = `guest-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      sessionStorage.setItem('cart-session-id', sessionId);
+    }
+    return `restaurant-cart-${sessionId}`;
+  }, [user?.uid]);
 
+  // Load cart when user changes or on mount
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const stored = window.localStorage.getItem('restaurant-cart');
+    
+    const cartKey = getCartKey();
+    const stored = window.localStorage.getItem(cartKey);
+    
     if (stored) {
       try {
         const parsed: CartItem[] = JSON.parse(stored);
@@ -126,9 +147,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
         // If we filtered out items, update localStorage
         if (validItems.length !== parsed.length) {
           if (validItems.length === 0) {
-            window.localStorage.removeItem('restaurant-cart');
+            window.localStorage.removeItem(cartKey);
           } else {
-            window.localStorage.setItem('restaurant-cart', JSON.stringify(validItems));
+            window.localStorage.setItem(cartKey, JSON.stringify(validItems));
           }
         }
         
@@ -136,15 +157,20 @@ export function CartProvider({ children }: { children: ReactNode }) {
       } catch (error) {
         console.error('Failed to parse cart from storage', error);
         // Clear corrupted cart data
-        window.localStorage.removeItem('restaurant-cart');
+        window.localStorage.removeItem(cartKey);
       }
+    } else {
+      // Clear cart when switching users (user changed but no cart for new user)
+      dispatch({ type: 'hydrate', payload: [] });
     }
-  }, []);
+  }, [user?.uid, getCartKey]);
 
+  // Save cart to user-specific localStorage
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    window.localStorage.setItem('restaurant-cart', JSON.stringify(state.items));
-  }, [state.items]);
+    const cartKey = getCartKey();
+    window.localStorage.setItem(cartKey, JSON.stringify(state.items));
+  }, [state.items, getCartKey]);
 
   const value = useMemo<CartContextValue>(() => {
     const subtotal = state.items.reduce((sum, item) => sum + item.price * item.qty, 0);
