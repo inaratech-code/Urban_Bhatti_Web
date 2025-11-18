@@ -27,7 +27,16 @@ export default function HomePage() {
       <section className="bg-white rounded-xl sm:rounded-2xl md:rounded-3xl shadow-sm border border-gray-200 p-4 sm:p-6 md:p-8 text-center">
         <div className="flex flex-col items-center gap-3 sm:gap-4 md:gap-5">
           <div className="relative">
-            <Image src="/logo.jpg" alt="Urban Bhatti" width={100} height={100} className="h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 rounded-full object-cover border-2 border-gray-200" />
+            <div className="h-20 w-20 sm:h-24 sm:w-24 md:h-28 md:w-28 rounded-full border-2 border-gray-300 overflow-hidden bg-white flex items-center justify-center">
+              <Image 
+                src="/LOGO.jpg" 
+                alt="Urban Bhatti" 
+                width={120} 
+                height={120} 
+                className="h-full w-full object-cover" 
+                priority
+              />
+            </div>
           </div>
           <div className="space-y-1.5 sm:space-y-2">
             <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900">Urban Bhatti</h1>
