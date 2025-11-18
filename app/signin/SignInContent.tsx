@@ -263,21 +263,9 @@ export default function SignInContent() {
       const isHardcodedAdmin = HARDCODED_ADMIN_UIDS.has(currentUser.uid);
       const isAdminAccount = role === 'admin' || isHardcodedAdmin;
 
-      // Debug logging for admin authentication
-      if (process.env.NODE_ENV === 'development') {
-        console.log('Admin login check:', {
-          mode,
-          uid: currentUser.uid,
-          isHardcodedAdmin,
-          role,
-          isAdminAccount,
-          adminUids: Array.from(HARDCODED_ADMIN_UIDS)
-        });
-      }
-
       if (mode === 'admin' && !isAdminAccount) {
         await signOut(targetAuth);
-        setMessage(`This account does not have admin access. Your UID: ${currentUser.uid}`);
+        setMessage('This account does not have admin access.');
         return;
       }
 
@@ -604,31 +592,31 @@ export default function SignInContent() {
             </div>
           </div>
 
-          {showAdminOption && (
-            <div className="hidden sm:grid gap-3 sm:grid-cols-2">
-              {roleTabs.map((tab) => (
-                <button
-                  key={tab.value}
-                  type="button"
-                  onClick={() => {
-                    setMode(tab.value);
-                    setMessage(null);
-                    setErrors({});
-                  }}
-                  className={`rounded-2xl border px-4 py-4 text-left transition ${
-                    mode === tab.value
-                      ? 'border-brand-orange bg-white text-brand-dark shadow'
-                      : 'border-transparent bg-white/60 text-gray-500 hover:border-brand-orange/60'
-                  }`}
-                >
-                  <p className="text-sm font-semibold">{tab.label}</p>
-                  <p className="mt-1 text-xs text-gray-500">{tab.description}</p>
-                </button>
-              ))}
-            </div>
-          )}
+          {/* Always show both options on desktop, only "I'm ordering food" on mobile */}
+          <div className="hidden sm:grid gap-3 sm:grid-cols-2">
+            {roleTabs.map((tab) => (
+              <button
+                key={tab.value}
+                type="button"
+                onClick={() => {
+                  setMode(tab.value);
+                  setMessage(null);
+                  setErrors({});
+                }}
+                className={`rounded-2xl border px-4 py-4 text-left transition ${
+                  mode === tab.value
+                    ? 'border-brand-orange bg-white text-brand-dark shadow'
+                    : 'border-transparent bg-white/60 text-gray-500 hover:border-brand-orange/60'
+                }`}
+              >
+                <p className="text-sm font-semibold">{tab.label}</p>
+                <p className="mt-1 text-xs text-gray-500">{tab.description}</p>
+              </button>
+            ))}
+          </div>
           
-          <div className={`rounded-2xl border border-brand-orange bg-white px-5 sm:px-4 py-4 shadow ${showAdminOption ? 'sm:hidden' : ''}`}>
+          {/* Mobile: Only show "I'm ordering food" */}
+          <div className="sm:hidden rounded-2xl border border-brand-orange bg-white px-5 py-4 shadow">
             <p className="text-sm font-semibold text-brand-dark">{roleTabs[0].label}</p>
             <p className="mt-1 text-xs text-gray-500">{roleTabs[0].description}</p>
           </div>
