@@ -1,0 +1,39 @@
+{
+  "name": "restaurant-web",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -H 0.0.0.0",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "seed": "npx ts-node --transpile-only --project tsconfig.seed.json ./lib/seed.ts",
+    "set-admin": "npx ts-node --transpile-only --project tsconfig.seed.json scripts/setAdminRole.ts",
+    "populate-menu": "npx ts-node --transpile-only --project tsconfig.seed.json scripts/populate-menu.ts"
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.1.1",
+    "@tailwindcss/forms": "^0.5.7",
+    "chart.js": "^4.4.4",
+    "clsx": "^2.1.1",
+    "dotenv": "^17.2.3",
+    "firebase": "^12.5.0",
+    "firebase-admin": "^13.6.0",
+    "next": "^16.0.1",
+    "next-themes": "^0.2.1",
+    "react": "^19.2.0",
+    "react-chartjs-2": "^5.0.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.0",
+    "tailwindcss": "^3.3.0",
+    "ts-node": "^10.9.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.0.0"
+  }
+}

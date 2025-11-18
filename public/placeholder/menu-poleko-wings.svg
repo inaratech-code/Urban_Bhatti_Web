@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <rect width="200" height="200" rx="16" fill="#1f2937"/>
+  <path d="M60 110c10-30 70-30 80 0l-10 30H70l-10-30z" fill="#f97316" stroke="#fde68a" stroke-width="6"/>
+  <text x="100" y="170" text-anchor="middle" font-family="Arial" font-size="18" fill="#fde68a">Poleko Wings</text>
+</svg>
+

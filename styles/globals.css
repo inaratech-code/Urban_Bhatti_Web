@@ -1,0 +1,126 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+:root {
+  color-scheme: light;
+  --brand-orange: #f36a10;
+  --brand-amber: #ffbf64;
+  --brand-brown: #381808;
+  --brand-cream: #fff4e6;
+  --motion-duration-fast: 120ms;
+  --motion-duration-base: 220ms;
+  --motion-duration-slow: 360ms;
+  --motion-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-duration-fast: 0.01ms;
+    --motion-duration-base: 0.01ms;
+    --motion-duration-slow: 0.01ms;
+    --motion-ease-out: linear;
+    --motion-ease-in-out: linear;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  background: radial-gradient(circle at top left, var(--brand-amber) 0%, var(--brand-cream) 45%, #ffffff 72%, rgba(56, 24, 8, 0.15) 100%);
+  color: #1f2937;
+}
+
+body:has([data-admin-page]) {
+  background: white !important;
+}
+
+/* Scrollbar hide utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+a {
+  color: var(--brand-orange);
+  transition: color var(--motion-duration-fast) var(--motion-ease-out);
+}
+
+a:hover,
+a:focus-visible {
+  color: #c34e04;
+}
+
+@layer utilities {
+  .motion-tap {
+    transition:
+      transform var(--motion-duration-fast) var(--motion-ease-out),
+      box-shadow var(--motion-duration-fast) var(--motion-ease-out),
+      background-color var(--motion-duration-fast) var(--motion-ease-out),
+      color var(--motion-duration-fast) var(--motion-ease-out),
+      border-color var(--motion-duration-fast) var(--motion-ease-out);
+  }
+
+  .motion-tap:hover,
+  .motion-tap:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(59, 24, 8, 0.12);
+  }
+
+  .motion-tap:active {
+    transform: translateY(0) scale(0.99);
+    box-shadow: 0 6px 16px rgba(59, 24, 8, 0.1);
+  }
+
+  .motion-link {
+    transition:
+      color var(--motion-duration-fast) var(--motion-ease-out),
+      transform var(--motion-duration-fast) var(--motion-ease-out),
+      background-color var(--motion-duration-fast) var(--motion-ease-out);
+  }
+
+  .motion-link:hover,
+  .motion-link:focus-visible {
+    transform: translateY(-1px);
+  }
+
+}
+
+/* Order tracking animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+
+
+/* Hide Next.js dev overlay badge */
+#nextjs-toast,
+#nextjs-toast-container,
+[data-nextjs-toast],
+[data-nextjs-dev-overlay] {
+  display: none !important;
+}
+
