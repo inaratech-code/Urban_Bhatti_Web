@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import type { AdminOrderDto } from '../../components/AdminOrdersTable';
-import { useAuth } from '../../components/AuthProvider';
+import { useAdminAuth } from '../../components/AuthProvider';
 
 const formatter = new Intl.DateTimeFormat('en-GB', {
   dateStyle: 'medium',
@@ -13,7 +13,7 @@ const formatter = new Intl.DateTimeFormat('en-GB', {
 
 export default function NotificationsPage() {
   const router = useRouter();
-  const { user, role, token, loading, refreshToken } = useAuth();
+  const { user, role, token, loading, refreshToken } = useAdminAuth();
   const [orders, setOrders] = useState<AdminOrderDto[]>([]);
   const [error, setError] = useState<string | null>(null);
 

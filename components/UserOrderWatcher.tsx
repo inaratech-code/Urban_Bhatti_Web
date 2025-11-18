@@ -7,7 +7,7 @@ import { useAuth } from './AuthProvider';
 const POLL_INTERVAL_MS = 15000; // Poll every 15 seconds (reduced frequency for better mobile performance)
 
 export default function UserOrderWatcher() {
-  const { user, token, refreshToken, loading } = useAuth();
+  const { user, role, token, refreshToken, loading } = useAuth();
   const orderStatusesRef = useRef<Map<string, string>>(new Map());
   const initializedRef = useRef(false);
   const controllerRef = useRef<AbortController | null>(null);
@@ -26,7 +26,8 @@ export default function UserOrderWatcher() {
 
   useEffect(() => {
     if (loading) return;
-    if (!user) {
+    // Don't poll for admins - they should use AdminOrderWatcher
+    if (!user || role === 'admin') {
       initializedRef.current = false;
       orderStatusesRef.current.clear();
       if (controllerRef.current) {
