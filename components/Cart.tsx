@@ -106,9 +106,37 @@ export function CartProvider({ children }: { children: ReactNode }) {
     if (stored) {
       try {
         const parsed: CartItem[] = JSON.parse(stored);
-        dispatch({ type: 'hydrate', payload: parsed });
+        // Filter out invalid items (fallback items, items without proper IDs, etc.)
+        const validItems = parsed.filter((item) => {
+          // Remove items with fallback IDs
+          if (item.menuItemId.startsWith('fallback-')) {
+            return false;
+          }
+          // Remove items without valid menuItemId
+          if (!item.menuItemId || item.menuItemId.trim() === '') {
+            return false;
+          }
+          // Remove items with invalid quantity
+          if (!item.qty || item.qty <= 0) {
+            return false;
+          }
+          return true;
+        });
+        
+        // If we filtered out items, update localStorage
+        if (validItems.length !== parsed.length) {
+          if (validItems.length === 0) {
+            window.localStorage.removeItem('restaurant-cart');
+          } else {
+            window.localStorage.setItem('restaurant-cart', JSON.stringify(validItems));
+          }
+        }
+        
+        dispatch({ type: 'hydrate', payload: validItems });
       } catch (error) {
         console.error('Failed to parse cart from storage', error);
+        // Clear corrupted cart data
+        window.localStorage.removeItem('restaurant-cart');
       }
     }
   }, []);
