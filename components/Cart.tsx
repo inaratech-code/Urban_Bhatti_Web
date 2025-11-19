@@ -13,6 +13,7 @@ import {
   memo
 } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 import { useAuth } from './AuthProvider';
 
@@ -520,8 +521,21 @@ export function CartSidebar() {
           </p>
         </div>
       )}
-      <h2 className="text-lg sm:text-xl font-semibold text-brand-dark">Your Cart</h2>
-      <p className="mt-1 text-xs sm:text-sm text-gray-500">Review your selections and place an order.</p>
+      <div className="flex items-center gap-3 mb-2">
+        <div className="relative h-10 w-10 sm:h-12 sm:w-12 overflow-hidden rounded-full border border-gray-200 flex-shrink-0">
+          <Image
+            src="/LOGO.jpg"
+            alt="Urban Bhatti logo"
+            width={48}
+            height={48}
+            className="h-full w-full object-cover"
+          />
+        </div>
+        <div className="flex-1 min-w-0">
+          <h2 className="text-lg sm:text-xl font-semibold text-brand-dark">Your Cart</h2>
+          <p className="mt-0.5 text-xs sm:text-sm text-gray-500">Review your selections and place an order.</p>
+        </div>
+      </div>
 
       <div className="mt-3 sm:mt-4 rounded-xl sm:rounded-2xl border border-gray-100 bg-gray-50/70 p-3 sm:p-4 text-xs sm:text-sm text-gray-700">
         <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.3em] sm:tracking-[0.35em] text-gray-400">
