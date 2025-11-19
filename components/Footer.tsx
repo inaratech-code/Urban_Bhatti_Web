@@ -20,9 +20,25 @@ export default function Footer() {
           </div>
         </div>
         <address className="flex flex-col gap-1 text-center not-italic text-sm text-[#5b341f] md:text-left">
-          <a href="tel:+9779800000000" className="transition hover:text-[#f36a10]">
-            Call: +977-9800000000
-          </a>
+          <div className="flex items-center justify-center gap-2 md:justify-start">
+            <a 
+              href="tel:+9779858482931" 
+              className="transition hover:text-[#f36a10]"
+              title="Call us"
+            >
+              Call: +977-9858482931
+            </a>
+            <span className="text-[#5b341f]/50">|</span>
+            <a 
+              href="https://wa.me/9779858482931" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition hover:text-[#f36a10]"
+              title="WhatsApp us"
+            >
+              WhatsApp
+            </a>
+          </div>
           <a href="mailto:hello@urbanbhatti.com" className="transition hover:text-[#f36a10]">
             Email: hello@urbanbhatti.com
           </a>
