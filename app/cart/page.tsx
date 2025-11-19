@@ -10,7 +10,7 @@ export default function CartPage() {
         <div className="bg-white rounded-lg sm:rounded-xl md:rounded-2xl shadow-sm border border-gray-200 p-3 sm:p-4 md:p-6">
           <div className="flex items-center gap-3 sm:gap-4">
             <div className="relative h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 overflow-hidden rounded-full border border-gray-200 flex-shrink-0">
-              <Image src="/logo.jpg" alt="Urban Bhatti" width={56} height={56} className="h-full w-full object-cover" />
+              <Image src="/LOGO.jpg" alt="Urban Bhatti logo" width={56} height={56} className="h-full w-full object-cover" />
             </div>
             <div className="flex-1 min-w-0">
               <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">Your Cart</h1>
