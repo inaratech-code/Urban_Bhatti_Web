@@ -472,7 +472,7 @@ export function CartSidebar() {
 
     const options = {
       enableHighAccuracy: true,
-      timeout: 15000, // Increased timeout for mobile
+      timeout: 20000, // Increased timeout for iPhone/mobile devices
       maximumAge: 0
     };
 
@@ -488,13 +488,13 @@ export function CartSidebar() {
         
         switch (error.code) {
           case error.PERMISSION_DENIED:
-            errorMessage = 'Location permission denied. Please:\n1. Allow location access when prompted\n2. Check browser settings to enable location\n3. Or enter your address manually';
+            errorMessage = 'Location permission denied. Please allow location access when prompted, or enter your address manually.';
             break;
           case error.POSITION_UNAVAILABLE:
-            errorMessage = 'Location information unavailable. Please:\n1. Check your GPS is enabled\n2. Ensure you have internet connection\n3. Or enter your address manually';
+            errorMessage = 'Location information unavailable. Please check your GPS is enabled and you have internet connection, or enter your address manually.';
             break;
           case error.TIMEOUT:
-            errorMessage = 'Location request timed out. Please:\n1. Try again\n2. Ensure GPS is enabled\n3. Or enter your address manually';
+            errorMessage = 'Location request timed out. Please try again or enter your address manually.';
             break;
           default:
             errorMessage = 'Unable to retrieve your location. Please enter your address manually.';
@@ -686,7 +686,7 @@ export function CartSidebar() {
           )}
         </button>
         {message && (
-          <p className={`mt-2 text-sm ${status === 'error' ? 'text-red-500' : 'text-green-600'}`} aria-live="polite">
+          <p className={`mt-2 text-sm whitespace-pre-line ${status === 'error' ? 'text-red-500' : 'text-green-600'}`} aria-live="polite">
             {message}
           </p>
         )}
