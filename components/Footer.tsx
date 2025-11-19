@@ -39,8 +39,8 @@ export default function Footer() {
               WhatsApp
             </a>
           </div>
-          <a href="mailto:hello@urbanbhatti.com" className="transition hover:text-[#f36a10]">
-            Email: hello@urbanbhatti.com
+          <a href="mailto:urbanbhatti977@gmail.com" className="transition hover:text-[#f36a10]">
+            Email: urbanbhatti977@gmail.com
           </a>
           <span>Location: Chatakpur, Dhangadhi</span>
         </address>

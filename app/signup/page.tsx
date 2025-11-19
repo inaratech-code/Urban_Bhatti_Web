@@ -70,7 +70,7 @@ export default function SignupPage() {
               Admin Sign In
             </Link>
             <Link
-              href="mailto:hello@urbanbhatti.com?subject=Urban%20Bhatti%20Admin%20Access"
+              href="mailto:urbanbhatti977@gmail.com?subject=Urban%20Bhatti%20Admin%20Access"
               className="inline-flex w-full items-center justify-center rounded-full border border-brand-orange px-5 py-2 text-sm font-semibold text-brand-orange hover:bg-brand-orange hover:text-white"
             >
               Request an invite
